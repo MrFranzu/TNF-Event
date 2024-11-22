@@ -1,2 +1,10 @@
 [build]
+  command = "npm run build"
+  publish = "build"
+
+[[plugins]]
+  package = "@netlify/plugin-cache"
+  
+[build]
   node_version = "18"  # Or whichever version you're using
+  node_version = "3"
