@@ -2,6 +2,8 @@
   command = "npm run build"
   publish = "build"
 
-[context.production.environment]
-  NODE_VERSION = "18"
-  NPM_VERSION = "9.6.0"  # Optional: Specify an NPM version if needed
+[build.environment]
+  NODE_VERSION = "17"  # You can adjust this version as needed
+
+[[plugins]]
+  package = "@netlify/plugin-cache-deps"
