@@ -1,14 +1,10 @@
 [build]
-  command = "./skip_build.sh"
+  command = "./deploy.sh"
   publish = "build"
-
-[context.production]
-  command = "npm run build"
 
 [build.environment]
   NODE_ENV = "production"
   CI = "false"
 
 [build.cache]
-  # Cache 'node_modules' to speed up build times
   paths = ["node_modules/**"]
