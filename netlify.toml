@@ -6,5 +6,5 @@
   package = "@netlify/plugin-cache"
   
 [build]
-  node_version = "18"  # Or whichever version you're using
-  node_version = "3"
+  react_version = "18"  # Or whichever version you're using
+  react_version = "3"
