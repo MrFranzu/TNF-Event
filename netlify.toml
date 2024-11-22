@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "./skip_build.sh"
   publish = "build"
 
 [context.production]
