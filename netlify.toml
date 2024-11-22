@@ -1,9 +1,6 @@
 [build]
-  command = "npm run build"
+  command = "npm install --legacy-peer-deps && npm run build"
   publish = "build"
 
 [build.environment]
-  NODE_VERSION = "18" # or your project's Node version
-
-[cache]
-  paths = ["node_modules", "build"]
+  NODE_ENV = "development"
