@@ -178,6 +178,27 @@ button:disabled {
     transform: translateY(0);
   }
 }
+/* Adjust month and year size in the DatePicker */
+.react-datepicker__header {
+  font-size: 0.9rem !important; /* Reduce the font size */
+  font-weight: normal !important; /* Set font weight to normal */
+}
+
+.react-datepicker__current-month {
+  font-size: 0.9rem !important; /* Reduce the size of the current month */
+}
+
+.react-datepicker__day-names {
+  font-size: 0.85rem !important; /* Adjust the size of day names */
+}
+
+.react-datepicker__month-container {
+  font-size: 1rem !important; /* Adjust the size of the overall month container */
+}
+
+.react-datepicker__day {
+  font-size: 0.9rem !important; /* Adjust the font size of the day numbers */
+}
 
 
 
