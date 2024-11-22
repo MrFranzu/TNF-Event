@@ -4,3 +4,4 @@
 
 [context.production.environment]
   NODE_VERSION = "18"
+  NPM_VERSION = "9.6.0"  # Optional: Specify an NPM version if needed
