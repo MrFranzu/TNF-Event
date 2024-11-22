@@ -10,6 +10,8 @@
     "ajv-keywords": "^5.1.0",
     "date-fns": "^4.1.0",
     "firebase": "^10.13.2",
+    "install": "^0.13.0",
+    "npm": "^10.9.1",
     "qrcode.react": "^4.0.1",
     "react": "^18.3.1",
     "react-datepicker": "^7.5.0",
@@ -24,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "clean": "rm -rf node_modules build package-lock.json && npm cache clean --force",
+    "deploy": "npm run build && netlify deploy --prod --dir=build"
   },
   "eslintConfig": {
     "extends": [
