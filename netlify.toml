@@ -3,7 +3,11 @@
   publish = "build"
 
 [build.environment]
-  NODE_VERSION = "17"  # You can adjust this version as needed
+  NODE_VERSION = "18"
 
 [[plugins]]
   package = "@netlify/plugin-cache-deps"
+
+# Optionally, to clear cache on every deploy (useful if dependencies are not resolving):
+[build]
+  command = "npm run build --no-cache"
