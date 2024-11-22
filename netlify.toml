@@ -2,9 +2,5 @@
   command = "npm run build"
   publish = "build"
 
-[[plugins]]
-  package = "@netlify/plugin-cache"
-  
-[build]
-  react_version = "18"  # Or whichever version you're using
-  react_version = "3"
+[context.production.environment]
+  NODE_VERSION = "18"
