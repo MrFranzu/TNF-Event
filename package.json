@@ -15,7 +15,7 @@
     "react-datepicker": "^7.5.0",
     "react-day-picker": "^9.3.1",
     "react-dom": "^18.3.1",
-    "react-qr-reader": "^2.0.0",
+    "react-qr-reader": "^3.0.0-beta-1",
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
