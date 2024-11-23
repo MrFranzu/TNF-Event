@@ -134,15 +134,27 @@ const BookingForm = () => {
         notes,
       }).map(([key, value]) => (
         <div className="summary-item" key={key}>
-          <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}
+          <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong>
+          <span>{value}</span>
         </div>
       ))}
       <div className="button-container">
+        {/* Go back button */}
+        <button
+          type="button"
+          onClick={() => setStep(2)} // Go back to step 2 (event details)
+        >
+          Go Back
+        </button>
+  
+        {/* Confirm button */}
         {loading ? <p>Loading...</p> : <button type="button" onClick={handleDone}>Confirm</button>}
       </div>
       {isBooked && <QRCodeCanvas value={qrCodeValue} size={256} style={{ margin: 'auto' }} />}
     </div>
   );
+  
+  
 
   const eventTypes = [
     { id: 'catering', label: 'Catering' },
