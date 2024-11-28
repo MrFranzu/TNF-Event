@@ -9,13 +9,13 @@
 
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #ffeef8; /* Light pink background */
+  background-color: #f4f0ff; /* Light violet background */
   color: #333;
   line-height: 1.6;
 }
 
 header {
-  background: #ff6f91; /* Light pink header */
+  background: #7a4fff; /* Violet header */
   color: white;
   padding: 1rem;
   text-align: center;
@@ -45,8 +45,8 @@ nav a i {
 }
 
 nav a:hover {
-  color: #ffcc00; /* Change text color on hover */
-  background: rgba(255, 204, 0, 0.2); /* Adds a hover background color */
+  color: #ffffff; /* White text color on hover */
+  background: rgba(255, 255, 255, 0.2); /* Light white background on hover */
 }
 
 main {
@@ -64,7 +64,7 @@ section {
 
 h1, h2, h3 {
   margin-bottom: 15px;
-  color: #ff6f91; /* Match header color */
+  color: #7a4fff; /* Match header color */
 }
 
 h1 {
@@ -86,7 +86,7 @@ p {
 
 /* Booking Form Styles */
 .booking-form {
-  background: #ffe4e1; /* Light pink form background */
+  background: #f1ebff; /* Very light violet form background */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -102,7 +102,7 @@ p {
 }
 
 .booking-form button {
-  background: #ff6f91; /* Match button color */
+  background: #7a4fff; /* Violet button color */
   color: white;
   padding: 10px 15px;
   border: none;
@@ -112,7 +112,7 @@ p {
 }
 
 .booking-form button:hover {
-  background: #ff3d57; /* Darker pink on hover */
+  background: #5e30cc; /* Darker violet on hover */
 }
 
 /* Responsive Design */

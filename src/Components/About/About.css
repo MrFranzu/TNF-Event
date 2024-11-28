@@ -14,7 +14,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background: linear-gradient(to right, #ffe0e0, #ffb3b3); /* Light pink gradient */
+  background: linear-gradient(to right, #e0b3ff, #f2e6ff); /* Light violet gradient */
   min-height: 100vh;
   text-align: center;
 }
@@ -57,7 +57,7 @@
 
 .about-text h1 {
   font-size: 2.5rem;
-  color: #ff6f61; /* Light orange color for heading */
+  color: #6a1b9a; /* Violet color for heading */
   margin-bottom: 20px;
   font-weight: bold;
 }

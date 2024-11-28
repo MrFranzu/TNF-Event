@@ -1,35 +1,35 @@
 /* Global styles */
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #fff5e1;
+  background-color: #f0e6f6; /* Soft violet background */
   margin: 0;
   padding: 0;
 }
 
 /* Main Booking Form Container */
 .booking-form {
-  background: #ffe0e9;
+  background: #e1d5f3; /* Light lavender background */
   padding: 30px;
   border-radius: 15px;
-  max-width: 600px;
+  max-width: 1200px; /* Increase max-width for larger desktop screens */
   margin: 50px auto;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  text-align: left;
   transition: all 0.3s ease-in-out;
 }
 
 .booking-form h1 {
   font-size: 2.5rem;
-  color: #ff8a80;
+  color: #9a4d97; /* Deep violet for main heading */
 }
 
 .booking-form h2 {
   font-size: 1.8rem;
-  color: #ff7043;
+  color: #7a3e7e; /* Slightly lighter violet */
 }
 
 .booking-intro {
-  color: #ff8a80;
+  color: #9a4d97; /* Deep violet text for intro */
   font-size: 1.2rem;
   margin-bottom: 30px;
 }
@@ -45,7 +45,7 @@ select {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
-  border: 2px solid #ffc4d6;
+  border: 2px solid #d3aedf; /* Lavender border */
   border-radius: 8px;
   background: #fff;
   color: #333;
@@ -60,14 +60,26 @@ input[type="tel"]:focus,
 input[type="date"]:focus,
 textarea:focus,
 select:focus {
-  border-color: #ff8a80;
+  border-color: #9a4d97; /* Focus on deep violet */
   outline: none;
+}
+
+/* Flexbox for horizontal layout of form fields */
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 280px; /* Ensure form fields are readable even in smaller desktop views */
 }
 
 /* Radio Button Group */
 .radio-group label {
   display: inline-block;
-  background-color: #ffccbc;
+  background-color: #d1c2e5; /* Light lavender background */
   padding: 10px 20px;
   border-radius: 20px;
   margin: 10px 5px;
@@ -80,23 +92,17 @@ select:focus {
 }
 
 .radio-group label:hover {
-  background-color: #ff8a80;
+  background-color: #9a4d97; /* Hover effect in deep violet */
 }
 
 .radio-group input[type="radio"]:checked + label {
-  background-color: #ff7043;
-  color: white;
-}
-
-/* Change color when active */
-.radio-group label.active {
-  background-color: #ff7043;
+  background-color: #7a3e7e; /* Selected state with a darker violet */
   color: white;
 }
 
 /* Buttons */
 button {
-  background-color: #ff8a80;
+  background-color: #9a4d97; /* Deep violet */
   color: white;
   border: none;
   padding: 15px 25px;
@@ -108,11 +114,11 @@ button {
 }
 
 button:hover {
-  background-color: #ff7043;
+  background-color: #7a3e7e; /* Darker violet on hover */
 }
 
 button:disabled {
-  background-color: #ffd9e1;
+  background-color: #e0c9d9; /* Disabled button in pale lavender */
   cursor: not-allowed;
 }
 
@@ -151,11 +157,11 @@ button:disabled {
 }
 
 .confirmation-circle {
-  background-color: #ffe0e9;
+  background-color: #e1d5f3; /* Light lavender background for confirmation circle */
   padding: 40px;
   border-radius: 50%;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  color: #ff8a80;
+  color: #9a4d97; /* Violet color for text */
 }
 
 .confirmation-circle h2 {
@@ -164,7 +170,7 @@ button:disabled {
 
 .confirmation-circle p {
   font-size: 1rem;
-  color: #ff7043;
+  color: #7a3e7e; /* Darker violet for secondary text */
 }
 
 /* Animations */
@@ -178,6 +184,7 @@ button:disabled {
     transform: translateY(0);
   }
 }
+
 /* Adjust month and year size in the DatePicker */
 .react-datepicker__header {
   font-size: 0.9rem !important; /* Reduce the font size */
@@ -200,5 +207,20 @@ button:disabled {
   font-size: 0.9rem !important; /* Adjust the font size of the day numbers */
 }
 
+/* Highlight Style */
+.highlight-title {
+  font-size: 1.25rem;      /* Larger font size */
+  font-weight: bold;       /* Bold text */
+  color: #007BFF;          /* Contrasting color (blue) */
+  background-color: #F0F8FF; /* Light background color */
+  padding: 0.2rem 0.5rem;  /* Add some padding around the text */
+  border-radius: 4px;      /* Rounded corners */
+}
 
-
+.highlight {
+  background-color: yellow; /* Highlight with yellow background */
+  font-weight: bold;         /* Make the text bold */
+  color: #333;               /* Change the text color */
+  padding: 0.2rem;           /* Add some padding around the text */
+  border-radius: 4px;        /* Optional: rounded corners */
+}

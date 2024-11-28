@@ -1,6 +1,6 @@
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #fff3f8; /* Light pink background */
+  background-color: #f0e6ff; /* Light violet background */
   margin: 0;
   padding: 0;
 }
@@ -11,7 +11,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(135deg, #ffcccc 30%, #ffe5b4 100%); /* Light pink to light orange gradient */
+  background: linear-gradient(135deg, #e0bbff 30%, #f7e1ff 100%); /* Light violet to light lavender gradient */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -22,7 +22,7 @@ body {
 
 h1 {
   text-align: center;
-  color: #ff6f61; /* Darker shade for heading */
+  color: #6a4c9c; /* Dark violet for heading */
   margin-bottom: 20px;
 }
 
@@ -34,7 +34,7 @@ form {
 
 label {
   font-weight: bold;
-  color: #ff4d4d; /* Slightly darker pink */
+  color: #8a4d8e; /* Slightly darker violet */
 }
 
 h3 {
@@ -47,7 +47,7 @@ h3 {
 }
 
 h3:hover {
-  background-color: #ffe5b4; /* Light orange on hover */
+  background-color: #f7e1ff; /* Light lavender on hover */
   transform: translateY(-2px);
 }
 
@@ -76,7 +76,7 @@ label {
   position: absolute;
   top: -30px; /* Position above the phone number */
   left: 0;
-  background-color: #4caf50; /* Green background */
+  background-color: #7a4f9e; /* Violet background */
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
@@ -104,11 +104,12 @@ label {
     transform: translateY(-10px);
   }
 }
+
 .contact-container a {
-  color: orange;
+  color: #7a4f9e; /* Violet for links */
   text-decoration: none; /* Optional: Remove underline for links */
 }
 
 .contact-container a:hover {
-  color: darkorange; /* Optional: Change color on hover */
+  color: #5c3a6f; /* Darker violet on hover */
 }

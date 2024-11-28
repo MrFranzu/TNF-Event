@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './BookingForm.css';
 import { db } from './firebaseConfig';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import { QRCodeCanvas } from 'qrcode.react';
-import DatePicker from 'react-datepicker';  
-import "react-datepicker/dist/react-datepicker.css";  
-import { addDays } from 'date-fns';  
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const BookingForm = () => {
   const [step, setStep] = useState(1);
@@ -18,20 +17,44 @@ const BookingForm = () => {
   const [eventType, setEventType] = useState('');
   const [eventTheme, setEventTheme] = useState('');
   const [eventDate, setEventDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
   const [menuPackage, setMenuPackage] = useState('');
   const [notes, setNotes] = useState('');
   const [isBooked, setIsBooked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [qrCodeValue, setQrCodeValue] = useState('');
-  const [bookedDates, setBookedDates] = useState([]); 
+  const [bookedDates, setBookedDates] = useState([]);
   const [dateError, setDateError] = useState('');
+  const [timeError, setTimeError] = useState('');
+  const qrCodeRef = useRef();
 
   useEffect(() => {
     const fetchBookedDates = async () => {
-      const q = query(collection(db, 'bookings'), where('eventDate', '>=', Timestamp.now()));
-      const querySnapshot = await getDocs(q);
-      const dates = querySnapshot.docs.map((doc) => doc.data().eventDate.toDate().toISOString().split('T')[0]);
-      setBookedDates(dates);
+      try {
+        const q = query(collection(db, 'bookings'), where('eventDate', '>=', Timestamp.now()));
+        const querySnapshot = await getDocs(q);
+
+        const dates = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          const startTime = data.startTime || '00:00';
+          const endTime = data.endTime || '00:00';
+          try {
+            return {
+              eventDate: data.eventDate?.toDate().toISOString().split('T')[0],
+              startHour: parseInt(startTime.split(':')[0], 10),
+              endHour: parseInt(endTime.split(':')[0], 10),
+            };
+          } catch (error) {
+            console.error('Error processing booking time:', error, data);
+            return null;
+          }
+        });
+
+        setBookedDates(dates.filter(Boolean));
+      } catch (error) {
+        console.error('Error fetching booked dates:', error);
+      }
     };
 
     fetchBookedDates();
@@ -48,12 +71,46 @@ const BookingForm = () => {
 
   const handleNext = (e) => {
     e.preventDefault();
-    if (contactNumber.length !== 11) {
+  
+    if (step === 1 && contactNumber.length !== 11) {
       alert('Please enter exactly 11 digits for the contact number.');
       return;
     }
+  
+    if (step === 2) {
+      const startHour = parseInt(startTime.split(':')[0]);
+      const endHour = parseInt(endTime.split(':')[0]);
+  
+      if (startHour >= endHour) {
+        setTimeError('Start time must be before end time.');
+        return;
+      }
+  
+      if (endHour > 24 || startHour < 8) {
+        setTimeError('Time must be between 8:00 AM and 12:00 Midnight.');
+        return;
+      }
+  
+      const overlappingEvent = bookedDates.find((date) => {
+        return (
+          date.eventDate === eventDate &&
+          ((startHour >= date.startHour && startHour < date.endHour) ||
+            (endHour > date.startHour && endHour <= date.endHour) ||
+            (startHour <= date.startHour && endHour >= date.endHour)) // Check full overlap
+        );
+      });
+  
+      if (overlappingEvent) {
+        setTimeError('Time slot overlaps with another event.');
+        return;
+      }
+  
+      setTimeError('');
+    }
+  
     setStep((prevStep) => prevStep + 1);
   };
+  
 
   const handlePrevious = (e) => {
     e.preventDefault();
@@ -71,6 +128,8 @@ const BookingForm = () => {
     setEventType('');
     setEventTheme('');
     setEventDate('');
+    setStartTime('');
+    setEndTime('');
     setMenuPackage('');
     setNotes('');
     setStep(1);
@@ -79,11 +138,6 @@ const BookingForm = () => {
   const handleDone = async () => {
     if (!isValidEmail(email)) {
       alert('Please enter a valid email address.');
-      return;
-    }
-
-    if (bookedDates.includes(eventDate)) {
-      alert('Sorry, this date is already booked. Please choose another one.');
       return;
     }
 
@@ -98,6 +152,8 @@ const BookingForm = () => {
       numAttendees: Number(numAttendees),
       eventType,
       eventDate: Timestamp.fromDate(new Date(eventDate)),
+      startTime,
+      endTime,
       menuPackage,
       notes,
       qrCode: uniqueCode,
@@ -107,61 +163,95 @@ const BookingForm = () => {
     try {
       const bookingDocRef = doc(db, 'bookings', uniqueCode);
       await setDoc(bookingDocRef, bookingData);
-      console.log("Document written with ID: ", bookingDocRef.id);
       setIsBooked(true);
       resetForm();
     } catch (e) {
-      console.error("Error adding document: ", e);
+      console.error('Error adding document: ', e);
       alert('There was an error creating your booking. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleCopyClick = () => {
+    // Select the text of the QR code value directly
+    navigator.clipboard.writeText(qrCodeValue).then(() => {
+      alert('QR code text copied to clipboard!');
+    }).catch((error) => {
+      console.error('Error copying text: ', error);
+      alert('Failed to copy QR code text.');
+    });
+  };
+  
+
   const renderSummary = () => (
     <div className="summary">
       <h2>Summary</h2>
-      {Object.entries({
-        name,
-        contactNumber,
-        email,
-        paymentMethod,
-        numAttendees,
-        eventType,
-        eventTheme,
-        eventDate,
-        menuPackage,
-        notes,
-      }).map(([key, value]) => (
-        <div className="summary-item" key={key}>
-          <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong>
-          <span>{value}</span>
+      <div className="summary-list">
+        <div className="summary-item">
+          <strong>Name:</strong> <span>{name}</span>
         </div>
-      ))}
+        <div className="summary-item">
+          <strong>Contact Number:</strong> <span>{contactNumber}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Email:</strong> <span>{email}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Payment Method:</strong> <span>{paymentMethod}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Number of Attendees:</strong> <span>{numAttendees}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Event Type:</strong> <span>{eventType}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Event Theme:</strong> <span>{eventTheme}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Event Date:</strong> <span>{eventDate}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Start Time:</strong> <span>{startTime}</span>
+        </div>
+        <div className="summary-item">
+          <strong>End Time:</strong> <span>{endTime}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Menu Package:</strong> <span>{menuPackage}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Notes:</strong> <span>{notes || 'None'}</span>
+        </div>
+      </div>
       <div className="button-container">
-        {/* Go back button */}
-        <button
-          type="button"
-          onClick={() => setStep(2)} // Go back to step 2 (event details)
-        >
+        <button type="button" onClick={handlePrevious}>
           Go Back
         </button>
-  
-        {/* Confirm button */}
-        {loading ? <p>Loading...</p> : <button type="button" onClick={handleDone}>Confirm</button>}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <button type="button" onClick={handleDone}>
+            Confirm
+          </button>
+        )}
       </div>
-      {isBooked && <QRCodeCanvas value={qrCodeValue} size={256} style={{ margin: 'auto' }} />}
+      {isBooked && (
+  <div className="qr-code-container">
+    <p>
+      <span className="highlight-title">Your QR Code Value:</span> <span className="highlight">{qrCodeValue}</span>
+    </p>
+    <p>Kindly copy it for your guests' attendance. Thank you.</p>
+    <button onClick={handleCopyClick}>Click to Copy QR Code Text</button>
+  </div>
+)}
+
+
+
     </div>
   );
   
-  
-
-  const eventTypes = [
-    { id: 'catering', label: 'Catering' },
-    { id: 'event-center', label: 'Event Center' },
-  ];
-
-  const isDateBooked = (date) => bookedDates.includes(date);
 
   return (
     <div className="booking-form">
@@ -175,102 +265,171 @@ const BookingForm = () => {
             <form onSubmit={handleNext}>
               <div className="box-container">
                 <h2>Personal Information</h2>
-          
-                <input type="text" placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)} required />
-                
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
                 <label>Contact Number</label>
-                <input type="tel" placeholder="Your 11-digit Contact Number" value={contactNumber} onChange={handleContactNumberChange} required maxLength="11" />
-                
+                <input
+                  type="tel"
+                  placeholder="Your 11-digit Contact Number"
+                  value={contactNumber}
+                  onChange={handleContactNumberChange}
+                  required
+                  maxLength="11"
+                />
                 <label>Email</label>
-                <input type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
                 <label>Payment Method</label>
                 <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} required>
-                  <option value="" disabled>Select Payment Method</option>
-                  <option value="credit-card">Credit Card</option>
-                  <option value="paypal">PayPal</option>
+                  <option value="" disabled>
+                    Select Payment Method
+                  </option>
                   <option value="gcash">Gcash</option>
                   <option value="bank-transfer">Bank Transfer</option>
                   <option value="cash">Cash</option>
                 </select>
-                
                 <label>Number of Attendees</label>
-                <input type="number" placeholder="Number of Attendees" value={numAttendees} onChange={(e) => setNumAttendees(e.target.value)} required min="1" />
+                <input
+                  type="number"
+                  placeholder="Number of Attendees"
+                  value={numAttendees}
+                  onChange={(e) => setNumAttendees(e.target.value)}
+                  required
+                />
               </div>
-              <button type="submit">Next</button>
+              <div className="button-container">
+                <button type="submit">Next</button>
+              </div>
             </form>
           ) : step === 2 ? (
             <form onSubmit={handleNext}>
               <div className="box-container">
-                <h2>Event Type</h2>
-                <div className="radio-group">
-                  {eventTypes.map((event) => (
-                    <label 
-                      key={event.id} 
-                      className={eventType === event.label ? 'active' : ''}
-                    >
-                      <input 
-                        type="radio" 
-                        name="eventType" 
-                        value={event.label} 
-                        checked={eventType === event.label} 
-                        onChange={(e) => setEventType(e.target.value)} 
-                        required 
-                      />
-                      {event.label}
-                    </label>
-                  ))}
-                </div>
+                <h2>Event Information</h2>
                 
+            <select
+              value={eventType}
+              onChange={(e) => setEventType(e.target.value)}
+              required
+            >
+                  
+              <option value="Event Center">Event Center</option>
+              <option value="Catering">Catering</option>
+            </select>
+
                 <label>Event Theme</label>
-                <input type="text" placeholder="Event Theme" value={eventTheme} onChange={(e) => setEventTheme(e.target.value)} required />
-                
-                <label>Event Date</label>           
-                <DatePicker 
-                  selected={eventDate ? new Date(eventDate) : null} 
+                <input
+                  type="text"
+                  placeholder="Event Theme"
+                  value={eventTheme}
+                  onChange={(e) => setEventTheme(e.target.value)}
+                  required
+                />
+                <label>Event Date</label>
+                <DatePicker
+                  selected={eventDate ? new Date(eventDate) : null}
                   onChange={(date) => {
                     const selectedDate = date.toISOString().split('T')[0];
                     setEventDate(selectedDate);
-                    if (bookedDates.includes(selectedDate)) {
-                      setDateError('Sorry, this date is already booked. Please choose another one.');
-                    } else {
-                      setDateError('');
-                    }
+                    const isFullyBooked = bookedDates.filter(
+                      (d) => d.eventDate === selectedDate && d.endHour >= 24
+                    ).length >= 3;
+
+                    setDateError(isFullyBooked ? 'This date is fully booked.' : '');
                   }}
-                  minDate={new Date()} 
-                  filterDate={(date) => {
-                    const dateStr = date.toISOString().split('T')[0];
-                    return !bookedDates.some(bookedDate => {
-                      const bookedDateObj = new Date(bookedDate);
-                      const prevDay = new Date(bookedDateObj);
-                      prevDay.setDate(bookedDateObj.getDate() - 1);
-                      return prevDay.toISOString().split('T')[0] === dateStr;
-                    });
-                  }}
-                  dateFormat="yyyy-MM-dd"
-                  className="date-picker"
+                  minDate={new Date()}
+                  required
                 />
                 {dateError && <p className="error-message">{dateError}</p>}
-                
-             
-                <input type="text" placeholder="Menu Package" value={menuPackage} onChange={(e) => setMenuPackage(e.target.value)} required />
-                
+                <label>Start Time</label>
+                <select value={startTime} onChange={(e) => setStartTime(e.target.value)} required>
+                  <option value="" disabled>
+                    Select Start Time
+                  </option>
+                  {Array.from({ length: 16 }, (_, i) => {
+                    const hour = 8 + i;
+                    const timeLabel = hour < 12 ? `${hour}:00 AM` : `${hour === 12 ? 12 : hour - 12}:00 PM`;
+                    const timeValue = `${hour}:00`;
+                    const isDisabled = bookedDates.some(
+                      (date) => date.eventDate === eventDate && hour >= date.startHour && hour < date.endHour
+                    );
+
+                    return (
+                      <option key={hour} value={timeValue} disabled={isDisabled}>
+                        {timeLabel}
+                      </option>
+                    );
+                  })}
+                </select>
+                <label>End Time</label>
+                <select value={endTime} onChange={(e) => setEndTime(e.target.value)} required>
+                  <option value="" disabled>
+                    Select End Time
+                  </option>
+                  {Array.from({ length: 16 }, (_, i) => {
+                    const hour = 8 + i;
+                    const timeLabel = hour < 12 ? `${hour}:00 AM` : `${hour === 12 ? 12 : hour - 12}:00 PM`;
+                    const timeValue = `${hour}:00`;
+
+                    // Convert startTime and endTime to hours
+                    const startHour = parseInt(startTime.split(':')[0], 10);
+                    const endHour = parseInt(endTime.split(':')[0], 10);
+
+                    // Disable times that overlap with the selected time range
+                    const isDisabled = bookedDates.some(
+                      (date) => date.eventDate === eventDate && 
+                      ((hour >= date.startHour && hour < date.endHour) || // Disable start time if it's part of a booking
+                      (hour < endHour && hour >= startHour)) // Disable all times within the booking range
+                    );
+
+                    return (
+                      <option key={hour} value={timeValue} disabled={isDisabled}>
+                        {timeLabel}
+                      </option>
+                    );
+                  })}
+
+
+                </select>
+                {timeError && <p className="error-message">{timeError}</p>}
+                <label>Menu Package</label>
+                <select value={menuPackage} onChange={(e) => setMenuPackage(e.target.value)} required>
+                  <option value="" disabled>
+                    Select Menu Package
+                  </option>
+                  <option value="Package A">Package A</option>
+                  <option value="Package B">Package B</option>
+                  <option value="Package C">Package C</option>
+                </select>
                 <label>Notes</label>
-                <textarea placeholder="Any additional notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
+                <textarea
+                  placeholder="Notes (Optional)"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                ></textarea>
               </div>
               <div className="button-container">
-                <button type="button" onClick={handlePrevious}>Previous</button>
+                <button type="button" onClick={handlePrevious}>
+                  Previous
+                </button>
                 <button type="submit">Next</button>
               </div>
             </form>
-          ) : renderSummary()}
+          ) : (
+            renderSummary()
+          )}
         </>
       ) : (
-        <div className="thank-you">
-          <h2>Thank you for booking!</h2>
-          <p>Kindly <strong>Screenshot</strong> or <strong>take a photo</strong> of this.</p>
-          <QRCodeCanvas value={qrCodeValue} size={256} style={{ margin: 'auto' }} />
-        </div>
+        renderSummary()
       )}
     </div>
   );

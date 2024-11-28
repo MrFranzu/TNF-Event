@@ -7,7 +7,7 @@ const Hero = ({ setCurrentPage }) => {
     justifyContent: 'center',
     alignItems: 'center',
     height: '80vh', // Keeps it concise but not overwhelming
-    background: 'linear-gradient(120deg, #FFB6C1, #FFA07A)', // Soft pink to light orange gradient
+    background: 'linear-gradient(120deg, #8A2BE2, #E6E6FA)', // Violet to lavender gradient
     color: '#333', // Dark text for good contrast on the light background
     textAlign: 'center',
     padding: '20px',
@@ -30,7 +30,7 @@ const Hero = ({ setCurrentPage }) => {
     letterSpacing: '2px', // Increased letter spacing for a modern touch
     lineHeight: '1.3',
     color: 'transparent', // Initially set text to transparent to apply gradient text effect
-    backgroundImage: 'linear-gradient(120deg, #FF7F50, #FFB6C1)', // Gradient effect
+    backgroundImage: 'linear-gradient(120deg, #8A2BE2, #9370DB)', // Gradient effect with shades of violet
     backgroundClip: 'text', // Clip the background to the text, so gradient shows
     WebkitBackgroundClip: 'text', // For Safari compatibility
     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)', // Subtle shadow to give depth
@@ -44,7 +44,7 @@ const Hero = ({ setCurrentPage }) => {
   };
 
   const buttonStyle = {
-    backgroundColor: '#FF7F50', // Coral-orange for the button
+    backgroundColor: '#8A2BE2', // Violet for the button
     color: 'white',
     padding: '12px 30px', // Moderate padding for the button
     fontSize: '1.1rem', // Slightly larger font size
