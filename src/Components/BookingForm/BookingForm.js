@@ -201,7 +201,7 @@ const BookingForm = () => {
           <strong>Payment Method:</strong> <span>{paymentMethod}</span>
         </div>
         <div className="summary-item">
-          <strong>Number of Attendees:</strong> <span>{numAttendees}</span>
+          <strong>Number of pax:</strong> <span>{numAttendees}</span>
         </div>
         <div className="summary-item">
           <strong>Event Type:</strong> <span>{eventType}</span>
@@ -224,7 +224,7 @@ const BookingForm = () => {
         <div className="summary-item">
           <strong>Notes:</strong> <span>{notes || 'None'}</span>
         </div>
-      </div>
+      </div> 
       <div className="button-container">
         <button type="button" onClick={handlePrevious}>
           Go Back
@@ -242,7 +242,7 @@ const BookingForm = () => {
     <p>
       <span className="highlight-title">Your QR Code Value:</span> <span className="highlight">{qrCodeValue}</span>
     </p>
-    <p>Kindly copy it for your guests' attendance. Thank you.</p>
+    <p>Kindly copy it for your guests' attendance. The link is on the <span class="highlight">top right</span> of your screen. Thank you.</p>
     <button onClick={handleCopyClick}>Click to Copy QR Code Text</button>
   </div>
 )}
@@ -298,10 +298,10 @@ const BookingForm = () => {
                   <option value="bank-transfer">Bank Transfer</option>
                   <option value="cash">Cash</option>
                 </select>
-                <label>Number of Attendees</label>
+                <label>Number of pax</label>
                 <input
                   type="number"
-                  placeholder="Number of Attendees"
+                  placeholder="Number of pax"
                   value={numAttendees}
                   onChange={(e) => setNumAttendees(e.target.value)}
                   required
@@ -351,65 +351,79 @@ const BookingForm = () => {
                 />
                 {dateError && <p className="error-message">{dateError}</p>}
                 <label>Start Time</label>
-                <select value={startTime} onChange={(e) => setStartTime(e.target.value)} required>
-                  <option value="" disabled>
-                    Select Start Time
-                  </option>
-                  {Array.from({ length: 16 }, (_, i) => {
-                    const hour = 8 + i;
-                    const timeLabel = hour < 12 ? `${hour}:00 AM` : `${hour === 12 ? 12 : hour - 12}:00 PM`;
-                    const timeValue = `${hour}:00`;
-                    const isDisabled = bookedDates.some(
-                      (date) => date.eventDate === eventDate && hour >= date.startHour && hour < date.endHour
-                    );
-
-                    return (
-                      <option key={hour} value={timeValue} disabled={isDisabled}>
-                        {timeLabel}
+                    <select value={startTime} onChange={(e) => setStartTime(e.target.value)} required>
+                      <option value="" disabled>
+                        Select Start Time
                       </option>
-                    );
-                  })}
-                </select>
-                <label>End Time</label>
-                <select value={endTime} onChange={(e) => setEndTime(e.target.value)} required>
-                  <option value="" disabled>
-                    Select End Time
-                  </option>
-                  {Array.from({ length: 16 }, (_, i) => {
-                    const hour = 8 + i;
-                    const timeLabel = hour < 12 ? `${hour}:00 AM` : `${hour === 12 ? 12 : hour - 12}:00 PM`;
-                    const timeValue = `${hour}:00`;
+                      {Array.from({ length: 16 }, (_, i) => {
+                        const hour = 8 + i; // Range from 8:00 AM to 12:00 Midnight
+                        const timeLabel = hour < 12 ? `${hour}:00 AM` : `${hour === 12 ? 12 : hour - 12}:00 PM`;
+                        const timeValue = `${hour}:00`;
 
-                    // Convert startTime and endTime to hours
-                    const startHour = parseInt(startTime.split(':')[0], 10);
-                    const endHour = parseInt(endTime.split(':')[0], 10);
+                        // Check if this hour overlaps with any booked event
+                        const isDisabled = bookedDates.some(
+                          (date) =>
+                            date.eventDate === eventDate &&
+                            hour >= date.startHour &&
+                            hour < date.endHour // Check if the hour falls within any booked range
+                        );
 
-                    // Disable times that overlap with the selected time range
-                    const isDisabled = bookedDates.some(
-                      (date) => date.eventDate === eventDate && 
-                      ((hour >= date.startHour && hour < date.endHour) || // Disable start time if it's part of a booking
-                      (hour < endHour && hour >= startHour)) // Disable all times within the booking range
-                    );
+                        return (
+                          <option key={hour} value={timeValue} disabled={isDisabled}>
+                            {timeLabel}
+                          </option>
+                        );
+                      })}
+                    </select>
 
-                    return (
-                      <option key={hour} value={timeValue} disabled={isDisabled}>
-                        {timeLabel}
+                    <label>End Time</label>
+                    <select value={endTime} onChange={(e) => setEndTime(e.target.value)} required>
+                      <option value="" disabled>
+                        Select End Time
                       </option>
-                    );
-                  })}
+                      {Array.from({ length: 16 }, (_, i) => {
+                        const hour = 8 + i; // Range from 8:00 AM to 12:00 Midnight
+                        const timeLabel = hour < 12 ? `${hour}:00 AM` : `${hour === 12 ? 12 : hour - 12}:00 PM`;
+                        const timeValue = `${hour}:00`;
 
+                        // Disable if it's not after the start time or overlaps with booked times
+                        const isDisabled =
+                          parseInt(startTime.split(':')[0], 10) >= hour || // Ensure it is after start time
+                          bookedDates.some(
+                            (date) =>
+                              date.eventDate === eventDate &&
+                              hour > date.startHour &&
+                              hour <= date.endHour // Overlaps with any booking range
+                          );
 
-                </select>
+                        return (
+                          <option key={hour} value={timeValue} disabled={isDisabled}>
+                            {timeLabel}
+                          </option>
+                        );
+                      })}
+                    </select>
+
                 {timeError && <p className="error-message">{timeError}</p>}
-                <label>Menu Package</label>
-                <select value={menuPackage} onChange={(e) => setMenuPackage(e.target.value)} required>
-                  <option value="" disabled>
-                    Select Menu Package
-                  </option>
-                  <option value="Package A">Package A</option>
-                  <option value="Package B">Package B</option>
-                  <option value="Package C">Package C</option>
-                </select>
+                <label>Menu Package
+                
+               </label>      
+               <select value={menuPackage} onChange={(e) => setMenuPackage(e.target.value)} required>
+                    <option value="" disabled>
+                      Select Menu Package
+                    </option>
+                    <option value="250/pax: Bolognese, Pimento Sandwich, iced tea. Free: Coffee & Tea">250/pax: Bolognese, Pimento Sandwich, iced tea. Free: Coffee & Tea</option>
+                    <option value="350/pax: Snacks: Spaghetti, & cucumber lemonade; Meal: Chicken teriyaki, fish fillet">350/pax: Snacks: Spaghetti, & cucumber lemonade; Meal: Chicken teriyaki, fish fillet</option>
+                    <option value="450/pax: Pork caldereta, Grilled chicken barbecue with pineapple, red capsicum, onion, herb crusted fish fillet, chop suey (meat and chicken), plain rice, one round iced tea. DESSERT: Mango float">450/pax: Pork caldereta, Grilled chicken barbecue with pineapple, red capsicum, onion, herb crusted fish fillet, chop suey (meat and chicken), plain rice, one round iced tea. DESSERT: Mango float</option>
+                    <option value="450/pax: Plain Rice, Pork Caldereta, Honey Pineapple Glazed Roasted Chicken, Herb crusted fish fillet, pancit guisado. Dessert: Mango float. One round iced tea">450/pax: Plain Rice, Pork Caldereta, Honey Pineapple Glazed Roasted Chicken, Herb crusted fish fillet, pancit guisado. Dessert: Mango float. One round iced tea</option>
+                    <option value="500/pax: Pork ribs with grilled corn cob, chicken teriyaki, herb crusted fish fillet, plain rice, one round iced tea, pancit. Desserts: Choco Balls, Salad Bar. Appetizer: Crab meat roll">500/pax: Pork ribs with grilled corn cob, chicken teriyaki, herb crusted fish fillet, plain rice, one round iced tea, pancit. Desserts: Choco Balls, Salad Bar. Appetizer: Crab meat roll</option>
+                    <option value="550/pax: Chow fan Rice, Beef Stroganoff, Cajun chicken roulade w/ buttered green beans, carrots and herbs jus, Herb crusted fish fillet, chap chae noodles, assorted maki, cream puff">550/pax: Chow fan Rice, Beef Stroganoff, Cajun chicken roulade w/ buttered green beans, carrots and herbs jus, Herb crusted fish fillet, chap chae noodles, assorted maki, cream puff</option>
+                    <option value="600/pax: START: Appetizer- Vegetable Salad, LUNCH: Plain Rice, Beef Tenderloin churrasco, Fish Fillet w/ Lemon Sauce, Mashed Potato, Mango Float. DRINKS: Cucumber. SNACKS: Bolognese w/ Toasted Bread">600/pax: START: Appetizer- Vegetable Salad, LUNCH: Plain Rice, Beef Tenderloin churrasco, Fish Fillet w/ Lemon Sauce, Mashed Potato, Mango Float. DRINKS: Cucumber. SNACKS: Bolognese w/ Toasted Bread</option>
+                    <option value="Custom menu (contact us for details)">Custom menu (contact us for details)</option>
+                  </select>
+                  <p style={{ fontWeight: 'bold', fontStyle: 'italic' }}>
+        Take note: this menu package can still be changed based on your preferences and availability of the menu.
+      </p>
                 <label>Notes</label>
                 <textarea
                   placeholder="Notes (Optional)"

@@ -1,6 +1,6 @@
 // src/Components/Header/Header.js
 import React from 'react';
-import './Header.css'; 
+import './Header.css';
 
 const Header = ({ setCurrentPage }) => {
   return (
@@ -11,6 +11,8 @@ const Header = ({ setCurrentPage }) => {
           <li><button onClick={() => setCurrentPage('home')}>Home</button></li>
           <li><button onClick={() => setCurrentPage('about')}>About</button></li>
           <li><button onClick={() => setCurrentPage('contact')}>Contact Us</button></li>
+          {/* Add TNF Attendance Link */}
+          <li><a href="https://tnfattendance.netlify.app/" target="_blank" rel="noopener noreferrer">TNF Attendance</a></li>
         </ul>
       </nav>
     </header>
