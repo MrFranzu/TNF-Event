@@ -29,6 +29,10 @@ const BookingForm = () => {
   const [timeError, setTimeError] = useState('');
   const qrCodeRef = useRef();
 const [customEventTheme, setCustomEventTheme] = useState("");
+const [location, setLocation] = useState('');
+const [event, setEvent] = useState("");
+  const [customEvent, setCustomEvent] = useState("");
+
 
 
   useEffect(() => {
@@ -144,6 +148,7 @@ const [customEventTheme, setCustomEventTheme] = useState("");
     }
   
     const themeToSave = eventTheme === "Other" ? customEventTheme : eventTheme;
+    const eventToSave = event === "Other" ? customEvent : event;
     const uniqueCode = `${themeToSave}-${numAttendees}-${Date.now()}`;
     setQrCodeValue(uniqueCode);
   
@@ -153,6 +158,7 @@ const [customEventTheme, setCustomEventTheme] = useState("");
       email,
       paymentMethod,
       numAttendees: Number(numAttendees),
+      event: eventToSave,
       eventType,
       eventTheme: themeToSave, // Save the resolved theme
       eventDate: Timestamp.fromDate(new Date(eventDate)),
@@ -160,6 +166,7 @@ const [customEventTheme, setCustomEventTheme] = useState("");
       endTime,
       menuPackage,
       notes,
+      location: eventType === 'Catering' ? location : null, // Save location for Catering
       qrCode: uniqueCode,
     };
   
@@ -210,7 +217,10 @@ const [customEventTheme, setCustomEventTheme] = useState("");
           <strong>Number of pax:</strong> <span>{numAttendees}</span>
         </div>
         <div className="summary-item">
-          <strong>Event Type:</strong> <span>{eventType}</span>
+          <strong>Service Type:</strong> <span>{eventType}</span>
+        </div>
+        <div className="summary-item">
+          <strong>Event Type:</strong> <span>{event}</span>
         </div>
         <div className="summary-item">
           <strong>Event Theme:</strong> <span>{eventTheme}</span>
@@ -227,10 +237,12 @@ const [customEventTheme, setCustomEventTheme] = useState("");
         <div className="summary-item">
           <strong>Menu Package:</strong> <span>{menuPackage}</span>
         </div>
+        
         <div className="summary-item">
           <strong>Notes:</strong> <span>{notes || 'None'}</span>
         </div>
       </div> 
+      
       <div className="button-container">
         <button type="button" onClick={handlePrevious}>
           Go Back
@@ -323,18 +335,70 @@ const [customEventTheme, setCustomEventTheme] = useState("");
                 <h2>Event Information</h2>
                 
                 <select
-                  value={eventType}
-                  onChange={(e) => setEventType(e.target.value)}
-                  required
-                >
-                  <option value="" disabled selected>Service Type</option>
-                  <option value="Event Center">Event Center</option>
-                  <option value="Catering">Catering</option>
-                </select>
+                          value={eventType}
+                          onChange={(e) => {
+                            setEventType(e.target.value);
+                            if (e.target.value === 'Catering') {
+                              setLocation(''); // Reset location field when Catering is selected
+                            }
+                          }}
+                          required
+                        >
+                          <option value="" disabled>Select Service Type</option>
+                          <option value="Event Center">Event Center</option>
+                          <option value="Catering">Catering</option>
+                        </select>
+
+                        {eventType === 'Catering' && (
+                          <div>
+                            <label>Location</label>
+                            <input
+                              type="text"
+                              placeholder="Event Location"
+                              value={location}
+                              onChange={(e) => setLocation(e.target.value)}
+                              required
+                            />
+                          </div>
+                        )}
 
 
-             
+<div>
+      <label>Event Type</label>
+      <select
+        value={event}
+        onChange={(e) => setEvent(e.target.value)}
+        required
+      >
+        <option value="" disabled>
+          Select Event
+        </option>
+        <option value="Disney">Disney</option>
+        <option value="Horror">Horror</option>
+        <option value="Retro">Retro</option>
+        <option value="Baby Shower">Baby Shower</option>
+        <option value="Superheroes & Villains">Superheroes & Villains</option>
+        <option value="Other">Other</option>
+      </select>
 
+      {event === "Other" && (
+        <input
+          type="text"
+          placeholder="Please specify the event"
+          value={customEvent}
+          onChange={(e) => setCustomEvent(e.target.value)}
+          required
+        />
+      )}
+    </div>
+  
+
+
+
+               
+
+
+      
                 <label>Event Theme</label>
 <select
   value={eventTheme}
