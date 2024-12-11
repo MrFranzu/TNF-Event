@@ -28,6 +28,8 @@ const BookingForm = () => {
   const [dateError, setDateError] = useState('');
   const [timeError, setTimeError] = useState('');
   const qrCodeRef = useRef();
+const [customEventTheme, setCustomEventTheme] = useState("");
+
 
   useEffect(() => {
     const fetchBookedDates = async () => {
@@ -136,21 +138,23 @@ const BookingForm = () => {
   };
 
   const handleDone = async () => {
-    if (!isValidEmail(email)) {
+    // Skip email validation if the email field is empty
+    if (email && !isValidEmail(email)) {
       alert('Please enter a valid email address.');
       return;
     }
-
+  
     const uniqueCode = `${eventTheme}-${numAttendees}-${Date.now()}`;
     setQrCodeValue(uniqueCode);
-
+  
     const bookingData = {
       name,
       contactNumber: Number(contactNumber),
-      email,
+      email, // Can be empty now
       paymentMethod,
       numAttendees: Number(numAttendees),
       eventType,
+      eventTheme,
       eventDate: Timestamp.fromDate(new Date(eventDate)),
       startTime,
       endTime,
@@ -158,7 +162,7 @@ const BookingForm = () => {
       notes,
       qrCode: uniqueCode,
     };
-
+  
     setLoading(true);
     try {
       const bookingDocRef = doc(db, 'bookings', uniqueCode);
@@ -172,6 +176,7 @@ const BookingForm = () => {
       setLoading(false);
     }
   };
+  
 
   const handleCopyClick = () => {
     // Select the text of the QR code value directly
@@ -284,11 +289,11 @@ const BookingForm = () => {
                 <label>Email</label>
                 <input
                   type="email"
-                  placeholder="Your Email"
+                  placeholder="Your Email (Optional)"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+/>
+
                 <label>Payment Method</label>
                 <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} required>
                   <option value="" disabled>
@@ -316,24 +321,49 @@ const BookingForm = () => {
               <div className="box-container">
                 <h2>Event Information</h2>
                 
-            <select
-              value={eventType}
-              onChange={(e) => setEventType(e.target.value)}
-              required
-            >
-                  
-              <option value="Event Center">Event Center</option>
-              <option value="Catering">Catering</option>
-            </select>
+                <select
+                  value={eventType}
+                  onChange={(e) => setEventType(e.target.value)}
+                  required
+                >
+                  <option value="" disabled selected>Service Type</option>
+                  <option value="Event Center">Event Center</option>
+                  <option value="Catering">Catering</option>
+                </select>
+
+
+             
 
                 <label>Event Theme</label>
-                <input
-                  type="text"
-                  placeholder="Event Theme"
-                  value={eventTheme}
-                  onChange={(e) => setEventTheme(e.target.value)}
-                  required
-                />
+<select
+  value={eventTheme}
+  onChange={(e) => {
+    const selectedValue = e.target.value;
+    setEventTheme(selectedValue);
+  }}
+  required
+>
+  <option value="" disabled>
+    Select Event Theme
+  </option>
+  <option value="Birthday">Birthday</option>
+  <option value="Wedding">Wedding</option>
+  <option value="Anniversary">Anniversary</option>
+  <option value="Other">Other</option>
+</select>
+
+{eventTheme === "Other" && (
+  <input
+    type="text"
+    placeholder="Please specify the event theme"
+    value={customEventTheme}
+    onChange={(e) => setCustomEventTheme(e.target.value)}
+    required
+  />
+)}
+
+
+
                 <label>Event Date</label>
                 <DatePicker
                   selected={eventDate ? new Date(eventDate) : null}
