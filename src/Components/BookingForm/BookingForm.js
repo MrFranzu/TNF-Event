@@ -138,23 +138,23 @@ const [customEventTheme, setCustomEventTheme] = useState("");
   };
 
   const handleDone = async () => {
-    // Skip email validation if the email field is empty
     if (email && !isValidEmail(email)) {
       alert('Please enter a valid email address.');
       return;
     }
   
-    const uniqueCode = `${eventTheme}-${numAttendees}-${Date.now()}`;
+    const themeToSave = eventTheme === "Other" ? customEventTheme : eventTheme;
+    const uniqueCode = `${themeToSave}-${numAttendees}-${Date.now()}`;
     setQrCodeValue(uniqueCode);
   
     const bookingData = {
       name,
       contactNumber: Number(contactNumber),
-      email, // Can be empty now
+      email,
       paymentMethod,
       numAttendees: Number(numAttendees),
       eventType,
-      eventTheme,
+      eventTheme: themeToSave, // Save the resolved theme
       eventDate: Timestamp.fromDate(new Date(eventDate)),
       startTime,
       endTime,
@@ -176,6 +176,7 @@ const [customEventTheme, setCustomEventTheme] = useState("");
       setLoading(false);
     }
   };
+  
   
 
   const handleCopyClick = () => {
@@ -361,6 +362,8 @@ const [customEventTheme, setCustomEventTheme] = useState("");
     required
   />
 )}
+
+
 
 
 

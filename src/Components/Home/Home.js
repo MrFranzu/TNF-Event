@@ -147,13 +147,13 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    height: '100vh',
+    minHeight: '100vh',
     backgroundColor: 'white',
     color: '#6a0dad',
     fontFamily: 'Arial, sans-serif',
-    padding: '30px',
+    padding: '20px',
     textAlign: 'center',
-    overflow: 'hidden',
+    overflowX: 'hidden',
   },
   heading: {
     fontSize: '24px',
@@ -163,7 +163,7 @@ const styles = {
   },
   boxContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
     gap: '20px',
     width: '100%',
     maxWidth: '1200px',
@@ -184,13 +184,13 @@ const styles = {
   },
   boxImage: {
     width: '80%',
-    height: '80px',
+    height: '100px',
     objectFit: 'cover',
     borderRadius: '10px',
   },
   boxDescription: {
     marginTop: '15px',
-    fontSize: '18px',
+    fontSize: '16px',
     fontWeight: 'bold',
     color: '#6a0dad',
   },
@@ -202,7 +202,26 @@ const styles = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
+    fontSize: '16px',
+  },
+  '@media (max-width: 768px)': {
+    heading: {
+      fontSize: '20px',
+      marginBottom: '20px',
+    },
+    boxContainer: {
+      gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+      gap: '15px',
+    },
+    boxImage: {
+      height: '80px',
+    },
+    cancelButton: {
+      fontSize: '14px',
+      padding: '8px 16px',
+    },
   },
 };
+
 
 export default Home;
