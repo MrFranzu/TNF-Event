@@ -1,125 +1,188 @@
 import React from 'react';
-import eventImage from './event.jpg'; // Import the image from the src folder
+import eventImage from './tnf.jpg';
+import adobo from './adobo.jpg';
+import choco from './choco.jpg';
+import fishfillet from './fishfillet.jpg';
+import salad from './salad.jpg';
+import spag from './spag.jpg';
+import taco from './taco.jpg';
+import tambakol from './tambakol.jpg';
+import hawai from './hawai.jpg';
+import horror from './horror.jpg';
+import mex from './mex.jpg';
+import motor from './motor.jpg';
 
 const About = () => {
-  // Inline style for the main container
   const containerStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     padding: '40px',
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#fff',
     minHeight: '100vh',
-    fontFamily: 'Arial, sans-serif',
-    justifyContent: 'center', // Ensures it aligns vertically as well
+    fontFamily: "'Poppins', sans-serif",
+    color: '#333',
   };
 
-  // Card style
+  const sectionTitleStyle = {
+    fontSize: '36px',
+    color: '#6A0DAD',
+    marginBottom: '20px',
+    textAlign: 'center',
+    fontWeight: '700',
+  };
+
+  const descriptionStyle = {
+    fontSize: '18px',
+    color: '#555',
+    lineHeight: '1.8',
+    maxWidth: '800px',
+    textAlign: 'center',
+    marginBottom: '40px',
+  };
+
+  const cardContainerStyle = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '20px',
+    justifyContent: 'center',
+  };
+
   const cardStyle = {
     display: 'flex',
-    flexDirection: 'row', // Arrange content side by side
-    justifyContent: 'space-between', // Space between image and text
-    backgroundColor: '#ffffff',
-    borderRadius: '15px',
-    boxShadow: '0 6px 15px rgba(0, 0, 0, 0.1)',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: '#F7F5FA',
+    borderRadius: '12px',
+    boxShadow: '0 8px 20px rgba(106, 13, 173, 0.15)',
     padding: '20px',
-    width: '100%',
-    maxWidth: '1200px',
-    marginBottom: '40px',
-    textAlign: 'left',
-    transition: 'transform 0.3s ease-in-out', // Smooth hover effect
+    maxWidth: '300px',
+    textAlign: 'center',
+    transition: 'transform 0.3s, box-shadow 0.3s',
+    cursor: 'pointer',
   };
 
-  // Hover effect for the card
   const cardHoverStyle = {
-    ...cardStyle,
-    ':hover': {
-      transform: 'translateY(-10px)', // Slight lift effect on hover
-      boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
-    }
+    transform: 'scale(1.05)',
+    boxShadow: '0 12px 24px rgba(106, 13, 173, 0.3)',
   };
 
-  // Title style
-  const titleStyle = {
-    fontSize: '32px',
-    color: '#6A0DAD', // Violet color
-    marginBottom: '15px',
-    fontWeight: 'bold',
-  };
-
-  // Paragraph text style
-  const textStyle = {
-    fontSize: '18px',
-    color: '#333',
-    lineHeight: '1.7',
-    marginBottom: '20px',
-  };
-
-  // Image style
   const imageStyle = {
-    width: '100%', // Adjust image width
-    height: 'auto', // Let the height scale accordingly
-    objectFit: 'cover', // Ensures image maintains aspect ratio
+    width: '100%',
     borderRadius: '10px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Adds shadow around image
+    marginBottom: '15px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   };
 
-  // Partner Card styles
-  const partnerCardStyle = {
-    ...cardStyle,
-    backgroundColor: '#f3f3f3',
-    textAlign: 'left',
-    padding: '20px 30px',
-    borderColor: '#6A0DAD', // Border in violet
-    borderWidth: '1px',
-    borderStyle: 'solid',
-  };
-
-  const partnerHeadingStyle = {
-    fontSize: '24px',
-    color: '#6A0DAD', // Violet color
-    marginBottom: '10px',
-    fontWeight: 'bold',
-  };
-
-  const partnerLinksStyle = {
+  const buttonStyle = {
+    marginTop: '20px',
+    backgroundColor: '#6A0DAD',
+    color: '#fff',
+    padding: '10px 20px',
+    borderRadius: '8px',
+    border: 'none',
+    cursor: 'pointer',
     fontSize: '16px',
-    color: '#333',
+    transition: 'background-color 0.3s',
+  };
+
+  const buttonHoverStyle = {
+    backgroundColor: '#580a9c',
+  };
+
+  const partnersStyle = {
+    backgroundColor: '#F3F1F5',
+    padding: '30px',
+    borderRadius: '12px',
+    textAlign: 'center',
+    maxWidth: '800px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    margin: '40px 0',
   };
 
   return (
     <div style={containerStyle}>
-      <div style={cardHoverStyle}>
-        {/* Image on the left */}
-        <div style={{ width: '40%' }}>
-          <img 
-            src={eventImage} 
-            alt="Event" 
-            style={imageStyle} 
-          />
-        </div>
-
-        <div style={{ width: '55%' }}>
-          <h1 style={titleStyle}>About Us</h1>
-          <p style={textStyle}>
-            TNF Event Center offers a beautiful, customizable space for celebrations of all kinds — 
-            from christenings to weddings and everything in between. Let us help you create unforgettable 
-            memories in a setting that’s as unique as your event!
-          </p>
-        </div>
+      {/* Welcome Section */}
+      <div>
+        <h1 style={sectionTitleStyle}>Welcome to TNF Event Center</h1>
+        <p style={descriptionStyle}>
+          Step into a realm where celebrations transcend into timeless memories. TNF Event Center is more than just a venue—it’s a sanctuary where love, laughter, and life converge. Let your milestones unfold amidst our elegant ambiance, designed to breathe life into every cherished moment. Whether it's a jubilant wedding or a cozy gathering, this is where your story begins.
+        </p>
+        <img src={eventImage} alt="Event Center" style={{ ...imageStyle, Width: 'px', height: '400px' }} />
       </div>
 
-      {/* Partner Card at the bottom */}
-      <div style={partnerCardStyle}>
-        <h2 style={partnerHeadingStyle}>Partners with:</h2>
-        <p style={partnerLinksStyle}>
-          <a href="https://www.facebook.com/panjielutongbahay" target="_blank" rel="noopener noreferrer" 
-            style={{ color: '#6A0DAD', textDecoration: 'none' }}>
-            Panjie - Lutong bahay
+      {/* Taste the Classics Section */}
+      <h2 style={sectionTitleStyle}>Taste the Classics</h2>
+      <p style={descriptionStyle}>
+        Experience the flavors that have stood the test of time. Every bite brings comfort, nostalgia, and joy to your palate.
+      </p>
+      <div style={cardContainerStyle}>
+        {[
+          { img: adobo, desc: 'Tangy, savory Adobo—a taste of Filipino tradition.' },
+          { img: choco, desc: 'Rich, velvety chocolate creations to delight your senses.' },
+          { img: fishfillet, desc: 'Golden, crispy fish fillet for a light yet satisfying treat.' },
+          { img: salad, desc: 'Fresh, vibrant salad bowls bursting with colors and crunch.' },
+          { img: spag, desc: 'Classic spaghetti smothered in rich tomato sauce.' },
+          { img: taco, desc: 'Zesty tacos filled with bold, mouthwatering flavors.' },
+          { img: tambakol, desc: 'Succulent Tambakol (tuna) cooked to perfection.' },
+        ].map((item, idx) => (
+          <div
+            key={idx}
+            style={cardStyle}
+            onMouseEnter={(e) => Object.assign(e.currentTarget.style, cardHoverStyle)}
+            onMouseLeave={(e) => Object.assign(e.currentTarget.style, cardStyle)}
+          >
+            <img src={item.img} alt="Classic Dish" style={imageStyle} />
+            <p style={{ fontSize: '16px', color: '#666' }}>{item.desc}</p>
+           
+          </div>
+        ))}
+      </div>
+
+      {/* Explore the Varieties Section */}
+      <h2 style={sectionTitleStyle}>Explore the Varieties</h2>
+      <p style={descriptionStyle}>
+        Dive into a world of adventurous cuisines crafted with passion and creativity.
+      </p>
+      <div style={cardContainerStyle}>
+        {[
+          { img: hawai, desc: 'Sweet and savory Hawaiian-inspired dishes await.' },
+          { img: horror, desc: 'Spooky delights for those with adventurous tastes.' },
+          { img: mex, desc: 'Mexican fusion flavors to ignite your taste buds.' },
+          { img: motor, desc: 'Innovative dishes for the modern food enthusiast.' },
+        ].map((item, idx) => (
+          <div
+            key={idx}
+            style={cardStyle}
+            onMouseEnter={(e) => Object.assign(e.currentTarget.style, cardHoverStyle)}
+            onMouseLeave={(e) => Object.assign(e.currentTarget.style, cardStyle)}
+          >
+            <img src={item.img} alt="Variety Dish" style={imageStyle} />
+            <p style={{ fontSize: '16px', color: '#666' }}>{item.desc}</p>
+            
+          </div>
+        ))}
+      </div>
+
+      {/* Partners Section */}
+      <div style={partnersStyle}>
+        <h2 style={sectionTitleStyle}>Our Proud Partners</h2>
+        <p style={{ fontSize: '16px', color: '#6A0DAD' }}>
+          <a
+            href="https://www.facebook.com/panjielutongbahay"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none', color: '#6A0DAD' }}
+          >
+            Panjie - Lutong Bahay
           </a>
-         <br/>
-          <a href="https://www.facebook.com/ailindsgrazingtable" target="_blank" rel="noopener noreferrer" 
-            style={{ color: '#6A0DAD', textDecoration: 'none' }}>
+          <br />
+          <a
+            href="https://www.facebook.com/ailindsgrazingtable"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none', color: '#6A0DAD' }}
+          >
             Ailin D’s Grazing Table and Cabinet
           </a>
         </p>

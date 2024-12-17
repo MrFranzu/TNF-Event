@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './App.css';
+
 import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
 import About from './Components/About/About';
-import Hero from './Components/Hero/Hero';
+
 import BookingForm from './Components/BookingForm/BookingForm';
 import Contact from './Components/Contact/Contact';
 
@@ -20,8 +20,8 @@ const App = () => {
       case 'home':
         return (
           <>
-            <Hero setCurrentPage={setCurrentPage} />
-            <Home />
+          
+            <Home setCurrentPage={setCurrentPage}/>
           </>
         );
       case 'about':
@@ -36,6 +36,7 @@ const App = () => {
         return <Contact />;
       default:
         return <Home />;
+        
     }
   };
 

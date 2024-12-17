@@ -8,15 +8,52 @@ body {
 
 /* Main Booking Form Container */
 .booking-form {
-  background: #e1d5f3; /* Light lavender background */
-  padding: 30px;
-  border-radius: 15px;
-  max-width: 1200px; /* Increase max-width for larger desktop screens */
-  margin: 50px auto;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
 }
+
+.two-column-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+h2 {
+  text-align: center;
+}
+
+textarea,
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.button-container {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
 
 .booking-form h1 {
   font-size: 2.5rem;
@@ -223,4 +260,110 @@ button:disabled {
   color: #333;               /* Change the text color */
   padding: 0.2rem;           /* Add some padding around the text */
   border-radius: 4px;        /* Optional: rounded corners */
+}
+.intro-text {
+  text-align: center;
+  padding: 40px;
+  margin: 20px auto;
+  background: linear-gradient(145deg, #ffffff, #e0c3fc);
+  box-shadow: 4px 4px 20px rgba(58, 12, 163, 0.2),
+              -4px -4px 20px rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  max-width: 800px;
+}
+
+/* Heading styles */
+.intro-text h1 {
+  font-size: 2.8rem;
+  color: #3a0ca3; /* Main violet */
+  margin-bottom: 20px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+/* Paragraph styles */
+.intro-text .booking-intro {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #5a189a; /* Slightly darker violet for contrast */
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+/* Subtle hover effect */
+.intro-text:hover {
+  transform: translateY(-5px);
+  box-shadow: 6px 6px 25px rgba(58, 12, 163, 0.3),
+              -6px -6px 25px rgba(255, 255, 255, 0.8);
+  transition: 0.3s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .intro-text h1 {
+      font-size: 2rem;
+  }
+
+  .intro-text .booking-intro {
+      font-size: 1rem;
+  }
+}
+/* General Typography */
+h2 {
+  font-family: 'Poppins', sans-serif; /* Clean and modern font */
+  font-size: 2rem; /* Slightly larger header for impact */
+  font-weight: 600; /* Semi-bold for emphasis */
+  color: #4a90e2; /* Nice accent color */
+  text-transform: uppercase; /* Adds a sleek, professional touch */
+  letter-spacing: 1.5px; /* Slight spacing for aesthetics */
+  margin-bottom: 12px;
+}
+
+p {
+  font-family: 'Roboto', sans-serif; /* Clean, readable body font */
+  font-size: 1rem; /* Standard size for readability */
+  line-height: 1.8; /* Extra line spacing for better legibility */
+  color: #555; /* Subtle contrast for body text */
+  margin-bottom: 16px; /* Consistent spacing between paragraphs */
+  text-align: justify; /* Aligns the text neatly */
+}
+
+/* Subtle Effects for Aesthetics */
+h2::after {
+  content: ''; /* Decorative line below headers */
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: #4a90e2; /* Matches the header color */
+  margin-top: 8px;
+  border-radius: 2px; /* Rounded edges for a polished look */
+}
+
+p:hover {
+  color: #333; /* Slightly darker on hover for interactivity */
+  transition: color 0.3s ease-in-out; /* Smooth hover effect */
+}
+.summary {
+  background-color: #f5f0ff;
+  color: #4b0082;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.summary-item strong {
+  color: #6a0dad;
+}
+
+.button-container button {
+  background-color: #6a0dad;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background-color: #4b0082;
 }
