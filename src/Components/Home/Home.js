@@ -5,6 +5,7 @@ import birthImage from './birth.jpg';
 import { db } from './firebaseConfig';
 import { doc, deleteDoc, getDoc } from 'firebase/firestore';
 import CalendarComponent from './CalendarComponent';
+import "./term.css";
 
 const App = ({ setCurrentPage }) => {
   const [showTerms, setShowTerms] = useState(false);
@@ -103,10 +104,36 @@ const App = ({ setCurrentPage }) => {
       {showTerms && (
         <div style={styles.modal}>
           <div style={styles.modalContent}>
-            <h2>Terms and Conditions</h2>
-            <p style={styles.modalParagraph}>
-              Please review the terms carefully before proceeding with any bookings.
-            </p>
+            
+            <div className="terms-conditions">
+      <h2>Terms and Conditions</h2>
+      <p>Please read the following terms and conditions carefully before confirming your booking:</p>
+      <div className="terms-content">
+        <ul>
+          <li>
+            <strong>Booking Confirmation:</strong> Your booking will only be confirmed upon receipt of full payment and acceptance of the event's terms and conditions.
+          </li>
+          <li>
+            <strong>Event Date and Time:</strong> Event dates and times are subject to availability. Any changes to the event date or time must be confirmed with the event center.
+          </li>
+          <li>
+            <strong>Cancellations:</strong> Cancellations must be made at least 48 hours in advance. A cancellation fee may apply depending on the event type.
+          </li>
+          <li>
+            <strong>Payment:</strong> Payment must be made according to the selected payment method. Failure to pay may result in the cancellation of your booking.
+          </li>
+          <li>
+            <strong>Privacy and Data Protection:</strong> Your personal data will be used only for the purpose of event booking and communication. We respect your privacy.
+          </li>
+          <li>
+            <strong>Responsibility:</strong> You are responsible for ensuring the conduct of your guests during the event. The event center reserves the right to terminate any event due to inappropriate behavior.
+          </li>
+          <li>
+            <strong>Liability:</strong> The event center is not responsible for any loss or damage incurred during the event.
+          </li>
+          {/* Add more list items as needed */}
+        </ul>
+      </div>
             <button
               style={styles.closeModalButton}
               onClick={handleModalClose}
@@ -114,6 +141,7 @@ const App = ({ setCurrentPage }) => {
               I Agree and Proceed
             </button>
           </div>
+        </div>
         </div>
       )}
 

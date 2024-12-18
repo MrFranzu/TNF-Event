@@ -1,0 +1,63 @@
+/* Add styles for the Terms and Conditions component */
+.terms-conditions {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  .terms-conditions h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .terms-conditions p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+  
+  .terms-content {
+    max-height: 300px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding-right: 10px; /* Optional to add some space on the right for scroll */
+    margin-bottom: 20px; /* Space between content and actions */
+  }
+  
+  .terms-conditions ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  
+  .terms-conditions li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .accept-btn,
+  .decline-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .accept-btn {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .decline-btn {
+    background-color: #dc3545;
+    color: white;
+  }
+  
