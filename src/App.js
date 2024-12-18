@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
 import About from './Components/About/About';
-
+import Menu from './Components/Menu/Menu'; // Adjust the path as needed
 import BookingForm from './Components/BookingForm/BookingForm';
 import Contact from './Components/Contact/Contact';
 
@@ -24,6 +24,8 @@ const App = () => {
             <Home setCurrentPage={setCurrentPage}/>
           </>
         );
+        case 'menu':
+          return <Menu />;
       case 'about':
         return <About />;
       case 'booking':

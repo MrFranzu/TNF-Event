@@ -11,6 +11,15 @@ const CalendarComponent = () => {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Helper function to format time to 12-hour format
+  const formatTime = (time) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    const isPM = hours >= 12;
+    const formattedHours = hours % 12 || 12; // Convert 0 or 12+ hours to 12-hour clock
+    const ampm = isPM ? "pm" : "am";
+    return `${formattedHours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+  };
+
   // Fetch available dates and times from Firestore
   useEffect(() => {
     const fetchDates = async () => {
@@ -59,7 +68,7 @@ const CalendarComponent = () => {
 
   return (
     <div className="calendar-container">
-      <h1 className="calendar-title">Event Calendar</h1>
+      <h1 className="calendar-title">Booked Calendar</h1>
       <Calendar
         onClickDay={handleDateClick}
         tileClassName={tileClassName}
@@ -69,13 +78,13 @@ const CalendarComponent = () => {
       {selectedDate && (
         <div className="times-container">
           <h2 className="times-title">
-            Available Times for {selectedDate.toDateString()}
+            Occupied Times for {selectedDate.toDateString()}
           </h2>
           {availableTimes.length > 0 ? (
             <ul className="times-list">
               {availableTimes.map((time, index) => (
                 <li key={index} className="time-slot">
-                  {time.startTime} - {time.endTime}
+                  {formatTime(time.startTime)} - {formatTime(time.endTime)}
                 </li>
               ))}
             </ul>

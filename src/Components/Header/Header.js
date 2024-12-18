@@ -9,6 +9,7 @@ const Header = ({ setCurrentPage }) => {
       <nav>
         <ul className="nav-list">
           <li><button onClick={() => setCurrentPage('home')}>Home</button></li>
+          <li><button onClick={() => setCurrentPage('menu')}>Menu</button></li>
           <li><button onClick={() => setCurrentPage('about')}>About</button></li>
           <li><button onClick={() => setCurrentPage('contact')}>Contact Us</button></li>
           {/* Add TNF Attendance Link */}
