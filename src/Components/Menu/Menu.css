@@ -242,4 +242,59 @@ body {
       font-size: 0.7rem;
     }
   }
+  .menu-section {
+    margin: 20px 0;
+    padding: 20px;
+  }
+  
+  .section-title {
+    font-size: 2rem; /* Larger font size */
+    text-align: center;
+    color: lightviolet; /* Change this to a valid light violet color */
+  }
+  
+  .menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.5rem; /* Larger font size */
+    color: lightviolet; /* Light violet color for the list */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensures items fill available space */
+    gap: 10px; /* Add spacing between items */
+  }
+  
+  .menu-list li {
+    flex: 1 1 calc(33.33% - 10px); /* Adjust width to fill space */
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .rates {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Distribute rate items */
+    gap: 20px; /* Space between rate items */
+    color: lightviolet; /* Light violet color */
+    font-size: 1.5rem; /* Larger font size */
+  }
+  
+  .rate-item {
+    flex: 1 1 calc(25% - 20px); /* Adjust width to fill space */
+    text-align: center;
+    background-color: #f9f9ff; /* Slight background contrast */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rate-price {
+    font-weight: bold;
+    font-size: 1.8rem; /* Larger font for price */
+  }
+  
+  .rate-desc {
+    font-size: 1.2rem;
+  }
   

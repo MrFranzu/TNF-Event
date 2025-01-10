@@ -363,7 +363,7 @@ const [event, setEvent] = useState("");
               )}
               <select value={event} onChange={(e) => setEvent(e.target.value)} required>
                 <option value="" disabled>
-                  Select Event Type
+                  Select Event Theme
                 </option>
                 <option value="Disney">Disney</option>
                 <option value="Horror">Horror</option>
@@ -381,7 +381,7 @@ const [event, setEvent] = useState("");
               )}
               <select value={eventTheme} onChange={(e) => setEventTheme(e.target.value)} required>
                 <option value="" disabled>
-                  Select Event Theme
+                  Select Event Type
                 </option>
                 <option value="Birthday">Birthday</option>
                 <option value="Wedding">Wedding</option>
