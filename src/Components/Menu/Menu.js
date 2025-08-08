@@ -55,7 +55,7 @@ const Menu = () => {
         {
           name: "Sambal Omelette",
           price: "Platter P 180 | Buffet P 600",
-          description: "Fluffy egg with onion, bell pepper, tomato & laksa - perfect for sharing.",
+          description: "Fluffy egg with onion, bell pepper, tomato & laksa - perfect for sharing.", 
           image: sambalOmelette,
         },
         {
